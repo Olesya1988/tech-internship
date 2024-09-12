@@ -65,7 +65,7 @@ body,
   color: rgb(252, 248, 248);
 }
 
-.add-post {
+.add-advertisement {
   position: fixed;
   width: 400px;
   top: 150px;
@@ -77,14 +77,14 @@ body,
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
 }
 
-.add-post__close {
+.add-advertisement__close {
   position: absolute;
   top: 0;
   right: 5px;
   cursor: pointer;
 }
 
-.add-post__input {
+.add-advertisement__input {
   width: 100%;
   padding: 5px;
   margin-top: 10px;
@@ -92,12 +92,12 @@ body,
   outline: none;
 }
 
-.add-post__submit-contaiter {
+.add-advertisement__submit-contaiter {
   display: flex;
   justify-content: end;
 }
 
-.post {
+.advertisement {
   margin-top: 10px;
   background-color: white;
   padding: 10px;
@@ -105,27 +105,27 @@ body,
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
 }
 
-.post__link {
+.advertisement__link {
   display: flex;
   gap: 5px;
 }
 
-.post__img {
+.advertisement__img {
   width: 50px;
   height: 50px;
 }
 
-.post__text {
+.advertisement__text {
   font-size: 12px;
   color: black;
 }
 
-.post__created {
+.advertisement__created {
   font-size: 10px;
   color: gray;
 }
 
-.post-view {
+.advertisement-view {
   position: fixed;
   width: 400px;
   top: 150px;
@@ -137,19 +137,19 @@ body,
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
 }
 
-.post-view__close {
+.advertisement-view__close {
   position: absolute;
   top: 0;
   right: 5px;
   cursor: pointer;
 }
 
-.post-view__content {
+.advertisement-view__content {
   padding: 10px;
   font-size: 15px;
 }
 
-.post-view__created {
+.advertisement-view__created {
   padding: 10px;
   font-size: 10px;
 }
@@ -162,7 +162,7 @@ body,
   align-items: center;
 }
 
-.edit-post {
+.edit-advertisement {
   position: fixed;
   width: 400px;
   top: 150px;
@@ -175,7 +175,7 @@ body,
   cursor: pointer;
 }
 
-.edit-post__input {
+.edit-advertisement__input {
   width: 100%;
   padding: 5px;
   margin-top: 5px;

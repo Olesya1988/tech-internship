@@ -3,29 +3,29 @@ import { Link } from "react-router-dom";
 
 export type TListItem = {
   id: string;
-  content: string;
-  created: string;
+  name: string;
+  createdAt: string;
 };
 
 interface ListItemProps {
-  post: TListItem;
+  advertisement: TListItem;
   onClick: any;
 }
 
-export const ListItem = ({ post, onClick }: ListItemProps) => {
-  const { id, content, created } = post;
+export const ListItem = ({ advertisement, onClick }: ListItemProps) => {
+  const { id, name, createdAt } = advertisement;
 
   return (
-    <li className="post" id={id} onClick={onClick}>
-      <Link className="post__link" to={`/posts/${id}`}>
+    <li className="advertisement" id={id} onClick={onClick}>
+      <Link className="advertisement__link" to={`/advertisements/${id}`}>
         <img
-          className="post__img"
+          className="advertisement__img"
           src="https://i.pravatar.cc/300"
           alt="avatar"
         />
-        <div className="post__content">
-          <div className="post__text">{content}</div>
-          <div className="post__created">{created}</div>
+        <div className="advertisement__content">
+          <div className="advertisement__text">{name}</div>
+          <div className="advertisement__created">{createdAt}</div>
         </div>
       </Link>
     </li>

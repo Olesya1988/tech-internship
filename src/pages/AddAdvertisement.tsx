@@ -4,10 +4,13 @@ interface FormProps {
   title: string;
   onChange: any;
   onSubmit: any;
-  content: string;
+  name: string;  
+  description?: string;  
+  price: number;  
+  imageUrl?: string;
 }
 
-export const AddPost = ({ title, onChange, onSubmit, content }: FormProps) => {
+export const AddAdvertisement = ({ title, onChange, onSubmit, name, description, price, imageUrl }: FormProps) => {
   const navigate = useNavigate();
   const handleClose = () => {
     navigate(-1);
@@ -21,9 +24,24 @@ export const AddPost = ({ title, onChange, onSubmit, content }: FormProps) => {
         className={`${title}__input`}
         placeholder="Введите текст..."
         onChange={onChange}
-        name="content"
-        value={content}
+        name="name"
+        value={name}
       ></textarea>
+      <textarea
+        className={`${title}__input__description`}
+        placeholder="Введите текст..."
+        onChange={onChange}
+        name="description"
+        value={description}
+      ></textarea>
+      <textarea
+        className={`${title}__input__price`}
+        placeholder="Введите текст..."
+        onChange={onChange}
+        name="price"
+        value={price}
+      ></textarea>
+      <input type="file" name="imageUrl" className={`${title}__input__imageUrl`}/>
       <div className={`${title}__submit-contaiter`}>
         <button
           className={`${title}__submit button-submit`}

@@ -1,141 +1,251 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
-import { AddPost } from "./pages/AddPost";
-import { Post } from "./pages/Post";
-import { EditPost } from "./pages/EditPost";
+import { AddAdvertisement } from "./pages/AddAdvertisement";
+import { Advertisement } from "./pages/Advertisement";
+import { EditAdvertisement } from "./pages/EditAdvertisement";
 import "./App.css";
 
-interface IPost {
+// interface IAdvertisement {
+//   id: string;
+//   content: string;
+//   created: string;
+// }
+
+export type Advertisment = {
+  /* Уникальный идентификатор. */
   id: string;
-  content: string;
-  created: string;
-}
+  /* Название. */
+  name: string;
+  /* Описание. */
+  description?: string;
+  /* Цена. */
+  price: number;
+  /* Дата и время создания. */
+  createdAt: string;
+  /* Количество просмотров. */
+  views: number;
+  /* Количество лайков. */
+  likes: number;
+  /* Ссылка на изображение. */
+  imageUrl?: string;
+};
 
 export default function App() {
-  const [posts, setPosts] = useState<IPost[]>([]); //посты
+  const [advertisements, setAdvertisements] = useState<Advertisment[]>([]); //посты
 
   const [form, setForm] = useState({
     //форма ввода
-    content: "",
+    name: "",
+    description: "",
+    price: 0,
+    createdAt: "",
+    views: 0,
+    likes: 0,
+    imageUrl: "",
   });
 
   const [formEdit, setFormEdit] = useState({
     //форма редактирования
-    content: "",
+    name: "",
+    description: "",
+    price: 0,
+    createdAt: "",
+    views: 0,
+    likes: 0,
+    imageUrl: "",
   });
 
-  const [activePost, setActivePost] = useState({
+  const [activeAdvertisement, setActiveAdvertisement] = useState({
     //выбранный пост
     id: "",
-    content: "",
-    created: "",
+    name: "",
+    description: "",
+    price: 0,
+    createdAt: "",
+    views: 0,
+    likes: 0,
+    imageUrl: "",
   });
 
-  const url = "http://localhost:7070/posts";
+  const url = "http://localhost:7070/advertisements";
 
-  const getAllPosts = async () => {
+  const getAllAdvertisements = async () => {
     //получение всех постов
     const response = await fetch(url, {
       method: "GET",
     });
     const result = await response.json();
-    setPosts(result); //отправка постов в state
+    setAdvertisements(result); //отправка постов в state
   };
 
-  const createPost = async (content: string) => {
-    //создание нового поста
-    const post = {
-      content,
+  const createAdvertisement = async (
+    name: string,
+    description: string,
+    price: number,
+    imageUrl: string
+  ) => {
+    const advertisement = {
+      name,
+      description,
+      price,
+      imageUrl,
     };
     await fetch(url, {
       method: "POST",
-      body: JSON.stringify(post),
+      body: JSON.stringify(advertisement),
     });
-    getAllPosts();
+    getAllAdvertisements();
   };
 
-  const deletePost = async (id: string) => {
+  const deleteAdvertisement = async (id: string) => {
     // удаление поста по id
     await fetch(`${url}/${id}`, {
       method: "DELETE",
     });
-    getAllPosts();
+    getAllAdvertisements();
   };
 
-  const readPost = async (id: string) => {
+  const readAdvertisement = async (id: string) => {
     // получение поста по заданному id
     const response = await fetch(`${url}/${id}`, {
       method: "GET",
     });
     const result = await response.json();
-    setActivePost(result.post); //отправка активного поста в state
+    setActiveAdvertisement(result.advertisement); //отправка активного поста в state
   };
 
-  const updatePost = async (id: string, content: string) => {
+  const updateAdvertisement = async (
+    id: string,
+    name: string,
+    description: string,
+    price: number,
+    createdAt: string,
+    views: number,
+    likes: number,
+    imageUrl: string
+  ) => {
     //изменение поста
-    const post = {
+    const advertisement = {
       id,
-      content,
+      name,
+      description,
+      price,
+      createdAt,
+      views,
+      likes,
+      imageUrl,
     };
     await fetch(`${url}/${id}`, {
       method: "PUT",
-      body: JSON.stringify(post),
+      body: JSON.stringify(advertisement),
     });
-    getAllPosts();
+    getAllAdvertisements();
   };
 
   const loadData = () => {
     // загрузка всех постов
-    getAllPosts();
+    getAllAdvertisements();
   };
 
   useEffect(loadData, []); // первая загрузка всех постов
 
-  const onAddPostHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onAddAdvertisementHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     // отправляем текст из input ввода в state формы
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmitPostHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitAdvertisementHandler = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
     // отправляем текст из state формы в запрос на новый пост
     e.preventDefault();
-    createPost(form.content);
-    setForm({ content: "" });
+    createAdvertisement(
+      form.name,
+      form.description,
+      form.price,
+      form.imageUrl
+    );
+    setForm({
+      name: "",
+      description: "",
+      price: 0,
+      createdAt: "",
+      views: 0,
+      likes: 0,
+      imageUrl: "",
+    });
   };
 
-  const onDeletePostHandler = (e: any) => {
+  const onDeleteAdvertisementHandler = (e: any) => {
     // событие удаления поста по id
     e.preventDefault();
     const target = e.target;
-    deletePost(target.closest(".post-view").id);
+    deleteAdvertisement(target.closest(".advertisement-view").id);
   };
 
-  const onUpdatePostHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onUpdateAdvertisementHandler = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     // отправляем текст из input редактирования в state формы редактирования
     const { name, value } = e.target;
     setFormEdit((prev) => ({ ...prev, [name]: value }));
   };
 
-  const onSubmitUpdatePostHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    // отправляем текст из state формы редактирования на сервер
-    e.preventDefault();
-    updatePost(activePost.id, formEdit.content);
-    setFormEdit({ content: "" });
+  const navigate = useNavigate();
+  const handleClose = () => {
+    navigate("/");
   };
 
-  const onReadPostHandler = (e: any) => {
+  const onSubmitUpdateAdvertisementHandler = (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    // отправляем текст из state формы редактирования на сервер
+    e.preventDefault();
+    updateAdvertisement(
+      activeAdvertisement.id,
+      formEdit.name,
+      formEdit.description,
+      formEdit.price,
+      formEdit.createdAt,
+      formEdit.views,
+      formEdit.likes,
+      formEdit.imageUrl
+    );
+    setFormEdit({
+      name: "",
+      description: "",
+      price: 0,
+      createdAt: "",
+      views: 0,
+      likes: 0,
+      imageUrl: "",
+    });
+    handleClose();
+  };
+
+  const onReadAdvertisementHandler = (e: any) => {
     // событие получения поста по id
     e.preventDefault();
     const target = e.target;
-    readPost(target.closest("li").id);
+    readAdvertisement(target.closest("li").id);
   };
 
-  // При открытии формы редактирования (например, в компоненте Post)
+  // При открытии формы редактирования (например, в компоненте Advertisement)
   const openEditForm = () => {
     // Заполните состояние formEdit значением текста поста для редактирования
-    setFormEdit({ content: activePost.content });
+    setFormEdit({
+      name: activeAdvertisement.name,
+      description: activeAdvertisement.name,
+      price: activeAdvertisement.price,
+      createdAt: activeAdvertisement.createdAt,
+      views: activeAdvertisement.views,
+      likes: activeAdvertisement.likes,
+      imageUrl: activeAdvertisement.imageUrl,
+    });
     // Здесь также можно показать форму редактирования, например, изменяя роут или состояние для отображения формы
   };
 
@@ -144,37 +254,45 @@ export default function App() {
       <Routes>
         <Route
           path="/"
-          element={<Layout posts={posts} onClick={onReadPostHandler} />}
+          element={
+            <Layout
+              advertisements={advertisements}
+              onClick={onReadAdvertisementHandler}
+            />
+          }
         >
           <Route
             path="/new"
             element={
-              <AddPost
-                title="add-post"
-                onChange={onAddPostHandler}
-                onSubmit={onSubmitPostHandler}
-                content={form.content}
+              <AddAdvertisement
+                title="add-advertisement"
+                onChange={onAddAdvertisementHandler}
+                onSubmit={onSubmitAdvertisementHandler}
+                name={form.name}
+                description={form.description}
+                price={form.price}
+                imageUrl={form.imageUrl}
               />
             }
           />
           <Route
-            path="/posts/:id"
+            path="/advertisements/:id"
             element={
-              <Post
-                activePost={activePost}
-                onClick={onDeletePostHandler}
+              <Advertisement
+                activeAdvertisement={activeAdvertisement}
+                onClick={onDeleteAdvertisementHandler}
                 openEditForm={openEditForm}
               />
             }
           />
           <Route
-            path="/posts/:id/edit"
+            path="/advertisements/:id/edit"
             element={
-              <EditPost
-                title="edit-post"
-                onChange={onUpdatePostHandler}
-                onSubmit={onSubmitUpdatePostHandler}
-                content={formEdit.content}
+              <EditAdvertisement
+                title="edit-advertisement"
+                onChange={onUpdateAdvertisementHandler}
+                onSubmit={onSubmitUpdateAdvertisementHandler}
+                name={formEdit.name}
               />
             }
           />

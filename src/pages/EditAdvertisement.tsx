@@ -4,24 +4,24 @@ interface FormProps {
   title: string;
   onChange: any;
   onSubmit: any;
-  content: string;
+  name: string;
 }
 
-export const EditPost = ({ title, onChange, onSubmit, content }: FormProps) => {
+export const EditAdvertisement = ({ title, onChange, onSubmit, name }: FormProps) => {
   const navigate = useNavigate();
   const handleClose = () => {
     navigate("/");
   };
   return (
     <form className={title} onSubmit={onSubmit}>
-      <div className="post-view__close" onClick={handleClose}>
+      <div className="advertisement-view__close" onClick={handleClose}>
         &#10006;
       </div>
       <textarea
         className={`${title}__input`}
         onChange={onChange}
-        name="content"
-        value={content}
+        name="name"
+        value={name}
       ></textarea>
       <div className="buttons">
         <button className="button-submit">Сохранить</button>
