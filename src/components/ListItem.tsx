@@ -1,19 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-
-export type TListItem = {
-  id: string;
-  name: string;
-  createdAt: string;
-};
+import { Advertisment } from "../App";
 
 interface ListItemProps {
-  advertisement: TListItem;
+  advertisement: Advertisment;
   onClick: any;
 }
 
 export const ListItem = ({ advertisement, onClick }: ListItemProps) => {
-  const { id, name, createdAt } = advertisement;
+  const { id, name, description, price, createdAt, views, likes, imageUrl } =
+    advertisement;
 
   return (
     <li className="advertisement" id={id} onClick={onClick}>
@@ -24,8 +20,12 @@ export const ListItem = ({ advertisement, onClick }: ListItemProps) => {
           alt="avatar"
         />
         <div className="advertisement__content">
-          <div className="advertisement__text">{name}</div>
-          <div className="advertisement__created">{createdAt}</div>
+          <div className="advertisement__name">{name}</div>
+          <div className="advertisement__description">{description}</div>
+          <div className="advertisement__price">Цена: {price}</div>
+          <div className="advertisement__views">Просмотров: {views}</div>
+          <div className="advertisement__likes">Лайков: {likes}</div>
+          <div className="advertisement__createdAt">Создано: {createdAt}</div>
         </div>
       </Link>
     </li>

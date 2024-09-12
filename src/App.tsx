@@ -6,12 +6,6 @@ import { Advertisement } from "./pages/Advertisement";
 import { EditAdvertisement } from "./pages/EditAdvertisement";
 import "./App.css";
 
-// interface IAdvertisement {
-//   id: string;
-//   content: string;
-//   created: string;
-// }
-
 export type Advertisment = {
   /* Уникальный идентификатор. */
   id: string;
@@ -32,10 +26,10 @@ export type Advertisment = {
 };
 
 export default function App() {
-  const [advertisements, setAdvertisements] = useState<Advertisment[]>([]); //посты
+  const [advertisements, setAdvertisements] = useState<Advertisment[]>([]);
 
   const [form, setForm] = useState({
-    //форма ввода
+    // форма ввода
     name: "",
     description: "",
     price: 0,
@@ -46,7 +40,7 @@ export default function App() {
   });
 
   const [formEdit, setFormEdit] = useState({
-    //форма редактирования
+    // форма редактирования
     name: "",
     description: "",
     price: 0,
@@ -57,7 +51,7 @@ export default function App() {
   });
 
   const [activeAdvertisement, setActiveAdvertisement] = useState({
-    //выбранный пост
+    // выбранное объявление
     id: "",
     name: "",
     description: "",
@@ -71,12 +65,12 @@ export default function App() {
   const url = "http://localhost:7070/advertisements";
 
   const getAllAdvertisements = async () => {
-    //получение всех постов
+    // получение всех объявлений
     const response = await fetch(url, {
       method: "GET",
     });
     const result = await response.json();
-    setAdvertisements(result); //отправка постов в state
+    setAdvertisements(result); // отправка объявлений в state
   };
 
   const createAdvertisement = async (
@@ -99,7 +93,7 @@ export default function App() {
   };
 
   const deleteAdvertisement = async (id: string) => {
-    // удаление поста по id
+    // удаление объявления по id
     await fetch(`${url}/${id}`, {
       method: "DELETE",
     });
@@ -107,12 +101,12 @@ export default function App() {
   };
 
   const readAdvertisement = async (id: string) => {
-    // получение поста по заданному id
+    // получение объявления по заданному id
     const response = await fetch(`${url}/${id}`, {
       method: "GET",
     });
     const result = await response.json();
-    setActiveAdvertisement(result.advertisement); //отправка активного поста в state
+    setActiveAdvertisement(result.advertisement); //отправка активного объявления в state
   };
 
   const updateAdvertisement = async (
@@ -125,7 +119,7 @@ export default function App() {
     likes: number,
     imageUrl: string
   ) => {
-    //изменение поста
+    //изменение объявления
     const advertisement = {
       id,
       name,
@@ -144,11 +138,11 @@ export default function App() {
   };
 
   const loadData = () => {
-    // загрузка всех постов
+    // загрузка всех объявлений
     getAllAdvertisements();
   };
 
-  useEffect(loadData, []); // первая загрузка всех постов
+  useEffect(loadData, []); // первая загрузка всех объявлений
 
   const onAddAdvertisementHandler = (
     e: React.ChangeEvent<HTMLInputElement>
@@ -161,14 +155,9 @@ export default function App() {
   const onSubmitAdvertisementHandler = (
     e: React.FormEvent<HTMLFormElement>
   ) => {
-    // отправляем текст из state формы в запрос на новый пост
+    // отправляем текст из state формы в запрос на новое объявление
     e.preventDefault();
-    createAdvertisement(
-      form.name,
-      form.description,
-      form.price,
-      form.imageUrl
-    );
+    createAdvertisement(form.name, form.description, form.price, form.imageUrl);
     setForm({
       name: "",
       description: "",
@@ -181,7 +170,7 @@ export default function App() {
   };
 
   const onDeleteAdvertisementHandler = (e: any) => {
-    // событие удаления поста по id
+    // событие удаления объявления по id
     e.preventDefault();
     const target = e.target;
     deleteAdvertisement(target.closest(".advertisement-view").id);
@@ -228,25 +217,23 @@ export default function App() {
   };
 
   const onReadAdvertisementHandler = (e: any) => {
-    // событие получения поста по id
+    // событие получения объявления по id
     e.preventDefault();
     const target = e.target;
     readAdvertisement(target.closest("li").id);
   };
 
-  // При открытии формы редактирования (например, в компоненте Advertisement)
+  // При открытии формы редактирования
   const openEditForm = () => {
-    // Заполните состояние formEdit значением текста поста для редактирования
     setFormEdit({
       name: activeAdvertisement.name,
-      description: activeAdvertisement.name,
+      description: activeAdvertisement.description,
       price: activeAdvertisement.price,
       createdAt: activeAdvertisement.createdAt,
       views: activeAdvertisement.views,
       likes: activeAdvertisement.likes,
       imageUrl: activeAdvertisement.imageUrl,
     });
-    // Здесь также можно показать форму редактирования, например, изменяя роут или состояние для отображения формы
   };
 
   return (
@@ -293,6 +280,9 @@ export default function App() {
                 onChange={onUpdateAdvertisementHandler}
                 onSubmit={onSubmitUpdateAdvertisementHandler}
                 name={formEdit.name}
+                description={formEdit.description}
+                price={formEdit.price}
+                imageUrl={formEdit.imageUrl}
               />
             }
           />

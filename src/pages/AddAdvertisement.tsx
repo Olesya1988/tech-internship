@@ -4,13 +4,21 @@ interface FormProps {
   title: string;
   onChange: any;
   onSubmit: any;
-  name: string;  
-  description?: string;  
-  price: number;  
+  name: string;
+  description?: string;
+  price: number;
   imageUrl?: string;
 }
 
-export const AddAdvertisement = ({ title, onChange, onSubmit, name, description, price, imageUrl }: FormProps) => {
+export const AddAdvertisement = ({
+  title,
+  onChange,
+  onSubmit,
+  name,
+  description,
+  price,
+  imageUrl,
+}: FormProps) => {
   const navigate = useNavigate();
   const handleClose = () => {
     navigate(-1);
@@ -20,28 +28,33 @@ export const AddAdvertisement = ({ title, onChange, onSubmit, name, description,
       <div className={`${title}__close`} onClick={handleClose}>
         &#10006;
       </div>
+      <h3 className={`${title}__title`}>Наименование товара</h3>
       <textarea
         className={`${title}__input`}
-        placeholder="Введите текст..."
         onChange={onChange}
         name="name"
         value={name}
       ></textarea>
+      <h3 className={`${title}__title`}>Описание товара</h3>
       <textarea
         className={`${title}__input__description`}
-        placeholder="Введите текст..."
         onChange={onChange}
         name="description"
         value={description}
       ></textarea>
-      <textarea
+      <h3 className={`${title}__title`}>Цена товара</h3>
+      <input
         className={`${title}__input__price`}
-        placeholder="Введите текст..."
         onChange={onChange}
         name="price"
         value={price}
-      ></textarea>
-      <input type="file" name="imageUrl" className={`${title}__input__imageUrl`}/>
+      />
+      <h3 className={`${title}__title`}>Загрузить изображение:</h3>
+      <input
+        type="file"
+        name="imageUrl"
+        className={`${title}__input__imageUrl`}
+      />
       <div className={`${title}__submit-contaiter`}>
         <button
           className={`${title}__submit button-submit`}
