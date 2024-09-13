@@ -10,6 +10,7 @@ export const Item = ({ advertisement }: ListItemProps) => {
   const { id, name, description, price, createdAt, views, likes, imageUrl, count } =
     advertisement;
     console.log(advertisement);
+    
 
   return (
     <li className="advertisement" id={id} >      
