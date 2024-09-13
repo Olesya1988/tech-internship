@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { Layout } from "./components/Layout";
+import { LayoutOrder } from "./components/LayoutOrder";
 import { AddAdvertisement } from "./pages/AddAdvertisement";
 import { Advertisement } from "./pages/Advertisement";
 import { EditAdvertisement } from "./pages/EditAdvertisement";
 import "./App.css";
+import { Items } from "./components/Items";
 
 export type Advertisment = {
   /* Уникальный идентификатор. */
@@ -25,7 +27,45 @@ export type Advertisment = {
   imageUrl?: string;
 };
 
+const OrderStatus = {
+  Created: 0,
+  Paid: 1,
+  Transport: 2,
+  DeliveredToThePoint: 3,
+  Received: 4,
+  Archived: 5,
+  Refund: 6,
+} as const;
+
+export type OrderItem = Advertisment & { count: number };
+
+export type Order = {
+  /* Уникальный идентификатор. */
+  id: string;
+  /* Статус. */
+  status: (typeof OrderStatus)[keyof typeof OrderStatus];
+  /* Дата и время создания. */
+  createdAt: string;
+  /* Дата и время завершения. */
+  finishedAt?: string;
+  /* Товары в заказе. */
+  items: Array<OrderItem>;
+  /* Способ доставки(Почта, СДЭК...) */
+  deliveryWay: string;
+  /* Сумма заказа */
+  total: number;
+};
+
+type Image = {
+  /* Уникальный идентификатор. */
+  id: number;
+  /* Ссылка. */
+  url: string;
+  /* Название. */
+  name: string;
+};
 export default function App() {
+  // Раздел с объявлениями
   const [advertisements, setAdvertisements] = useState<Advertisment[]>([]);
 
   const [form, setForm] = useState({
@@ -138,8 +178,9 @@ export default function App() {
   };
 
   const loadData = () => {
-    // загрузка всех объявлений
+    // загрузка всех объявлений и заказов
     getAllAdvertisements();
+    getAllOrders();
   };
 
   useEffect(loadData, []); // первая загрузка всех объявлений
@@ -236,9 +277,63 @@ export default function App() {
     });
   };
 
+  // Раздел с заказами
+
+  const [orders, setOrders] = useState<Order[]>([]);
+
+  const urlOrder = "http://localhost:7070/orders";
+
+  const getAllOrders = async () => {
+    // получение всех заказов
+    const response = await fetch(urlOrder, {
+      method: "GET",
+    });
+    const result = await response.json();
+    setOrders(result); // отправка заказов в state
+  };
+
   return (
     <>
       <Routes>
+        <Route path="/orders" element={<LayoutOrder orders={orders} />} />
+        <Route
+          path="/new"
+          element={
+            <AddAdvertisement
+              title="add-advertisement"
+              onChange={onAddAdvertisementHandler}
+              onSubmit={onSubmitAdvertisementHandler}
+              name={form.name}
+              description={form.description}
+              price={form.price}
+              imageUrl={form.imageUrl}
+            />
+          }
+        />
+        <Route
+          path="/advertisements/:id"
+          element={
+            <Advertisement
+              activeAdvertisement={activeAdvertisement}
+              onClick={onDeleteAdvertisementHandler}
+              openEditForm={openEditForm}
+            />
+          }
+        />
+        <Route
+          path="/advertisements/:id/edit"
+          element={
+            <EditAdvertisement
+              title="edit-advertisement"
+              onChange={onUpdateAdvertisementHandler}
+              onSubmit={onSubmitUpdateAdvertisementHandler}
+              name={formEdit.name}
+              description={formEdit.description}
+              price={formEdit.price}
+              imageUrl={formEdit.imageUrl}
+            />
+          }
+        />
         <Route
           path="/"
           element={
@@ -247,46 +342,7 @@ export default function App() {
               onClick={onReadAdvertisementHandler}
             />
           }
-        >
-          <Route
-            path="/new"
-            element={
-              <AddAdvertisement
-                title="add-advertisement"
-                onChange={onAddAdvertisementHandler}
-                onSubmit={onSubmitAdvertisementHandler}
-                name={form.name}
-                description={form.description}
-                price={form.price}
-                imageUrl={form.imageUrl}
-              />
-            }
-          />
-          <Route
-            path="/advertisements/:id"
-            element={
-              <Advertisement
-                activeAdvertisement={activeAdvertisement}
-                onClick={onDeleteAdvertisementHandler}
-                openEditForm={openEditForm}
-              />
-            }
-          />
-          <Route
-            path="/advertisements/:id/edit"
-            element={
-              <EditAdvertisement
-                title="edit-advertisement"
-                onChange={onUpdateAdvertisementHandler}
-                onSubmit={onSubmitUpdateAdvertisementHandler}
-                name={formEdit.name}
-                description={formEdit.description}
-                price={formEdit.price}
-                imageUrl={formEdit.imageUrl}
-              />
-            }
-          />
-        </Route>
+        />
       </Routes>
     </>
   );
