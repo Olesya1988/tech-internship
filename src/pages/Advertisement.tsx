@@ -26,12 +26,11 @@ export const Advertisement = ({
       <div className="advertisement-view__close" onClick={handleClose}>
         &#10006;
       </div>
+      <img className="advertisement__img" src={imageUrl} alt="avatar" />
       <div className="advertisement__name">{name}</div>
-      <div className="advertisement__description">{description}</div>
       <div className="advertisement__price">Цена: {price}</div>
       <div className="advertisement__views">Просмотров: {views}</div>
       <div className="advertisement__likes">Лайков: {likes}</div>
-      <div className="advertisement__createdAt">Создано: {createdAt}</div>
       <div className="buttons">
         <Link to={`/advertisements/${id}/edit`}>
           <button

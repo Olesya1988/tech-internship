@@ -1,22 +1,26 @@
 import { ListItem } from "./ListItem";
-import { Link } from "react-router-dom";
 import { Advertisment } from "../App";
 
 interface ListProps {
   advertisements: Advertisment[];
   onClick: any;
+  count: number;
 }
 
-export const List = ({ advertisements, onClick }: ListProps) => {
+export const List = ({ advertisements, onClick, count }: ListProps) => {
+  advertisements = advertisements.slice(0, count);
+
   return (
-    <ul>
-      {advertisements.map((advertisement) => (
-        <ListItem
-          advertisement={advertisement}
-          key={advertisement.id}
-          onClick={onClick}
-        />
-      ))}
-    </ul>
+    <>
+      <ul>
+        {advertisements.map((advertisement) => (
+          <ListItem
+            advertisement={advertisement}
+            key={advertisement.id}
+            onClick={onClick}
+          />
+        ))}
+      </ul>
+    </>
   );
 };

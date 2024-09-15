@@ -5,9 +5,10 @@ import { Items } from "./Items";
 
 interface ListItemProps {
   order: Order;
+  onClick: any;
 }
 
-export const ListItemOrder = ({ order }: ListItemProps) => {
+export const ListItemOrder = ({ order, onClick }: ListItemProps) => {
   const { id, status, createdAt, finishedAt, items, deliveryWay, total } =
     order;
 
@@ -43,16 +44,47 @@ export const ListItemOrder = ({ order }: ListItemProps) => {
       break;
   }
 
+  const urlOrder = "http://localhost:7070/orders";
+
+  const updateDate = async (id: string, finishedAt: string) => {
+    //изменение объявления
+    const order = {
+      id,
+      finishedAt,
+    };
+    await fetch(`${urlOrder}/${id}`, {
+      method: "PUT",
+      body: JSON.stringify(order),
+    });
+  };
+
+  const finish = () => {
+    let now: string = new Date().toLocaleString();
+    updateDate(id, now);
+    let el = document.querySelector(".order__finishedAt")?.textContent;
+    el = now;
+    /* eslint-disable */
+    location.reload();
+  };
+
   return (
     <li className="order" id={id}>
       <div className="order__content">
         <div className="order__id">Номер заказа: {id}</div>
         <div className="order__status">Статус: {statusText}</div>
         <div className="order__createdAt">
-          Дата и время создания: {createdAt}
+          Дата и время создания: {createdAt.slice(0, -14)} в{" "}
+          {createdAt.slice(11, -5)}
         </div>
         <div className="order__finishedAt">
-          Дата и время завершения: {finishedAt}
+          Дата и время завершения:{" "}
+          {finishedAt ? (
+            finishedAt
+          ) : (
+            <button className="order-finish" onClick={finish}>
+              Завершить
+            </button>
+          )}
         </div>
         <div className="order__deliveryWay">
           Способ доставки (Почта, СДЭК...): {deliveryWay}
@@ -61,7 +93,7 @@ export const ListItemOrder = ({ order }: ListItemProps) => {
         <button className="order__button" onClick={showItems}>
           Показать все товары
         </button>
-        <Items advertisements={items}></Items>
+        <Items advertisements={items} onClick={onClick}></Items>
       </div>
     </li>
   );

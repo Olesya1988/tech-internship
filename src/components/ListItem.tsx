@@ -14,18 +14,16 @@ export const ListItem = ({ advertisement, onClick }: ListItemProps) => {
   return (
     <li className="advertisement" id={id} onClick={onClick}>
       <Link className="advertisement__link" to={`/advertisements/${id}`}>
-        <img
-          className="advertisement__img"
-          src="https://i.pravatar.cc/300"
-          alt="avatar"
-        />
+        <img className="advertisement__img" src={imageUrl} alt="avatar" />
         <div className="advertisement__content">
           <div className="advertisement__name">{name}</div>
           <div className="advertisement__description">{description}</div>
           <div className="advertisement__price">Цена: {price}</div>
           <div className="advertisement__views">Просмотров: {views}</div>
           <div className="advertisement__likes">Лайков: {likes}</div>
-          <div className="advertisement__createdAt">Создано: {createdAt}</div>
+          <div className="advertisement__createdAt">
+            Создано: {createdAt.slice(0, -14)} в {createdAt.slice(11, -5)}
+          </div>
         </div>
       </Link>
     </li>

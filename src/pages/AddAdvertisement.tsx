@@ -49,10 +49,11 @@ export const AddAdvertisement = ({
         name="price"
         value={price}
       />
-      <h3 className={`${title}__title`}>Загрузить изображение:</h3>
+      <h3 className={`${title}__title`}>Введите URL изображения:</h3>
       <input
-        type="file"
+        type="text"
         name="imageUrl"
+        onChange={onChange}
         className={`${title}__input__imageUrl`}
       />
       <div className={`${title}__submit-contaiter`}>

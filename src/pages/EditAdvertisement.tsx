@@ -51,9 +51,11 @@ export const EditAdvertisement = ({
       />
       <h3 className={`${title}__title`}>Загрузить изображение:</h3>
       <input
-        type="file"
+        type="text"
+        onChange={onChange}
         name="imageUrl"
         className={`${title}__input__imageUrl`}
+        placeholder="URL изображения"
       />
       <div className="buttons">
         <button className="button-submit">Сохранить</button>

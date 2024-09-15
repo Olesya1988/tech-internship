@@ -4,6 +4,7 @@
   list-style-type: none;
   box-sizing: border-box;
   text-decoration: none;
+  color: #000000;
 }
 
 html,
@@ -47,7 +48,7 @@ body,
   padding: 7px;
   border: none;
   cursor: pointer;
-  color: white; 
+  color: white;
 }
 
 .button-submit:hover {
@@ -56,16 +57,19 @@ body,
 
 .button-cancel {
   background-color: rgb(136, 10, 10);
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
   padding: 7px;
   border: none;
   cursor: pointer;
   color: white;
+  width: 100px;
 }
 
 .add {
-border-radius: 50%;
-width: 30px;
-height: 30px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
 }
 
 .button-cancel:hover {
@@ -109,7 +113,8 @@ height: 30px;
   outline: none;
 }
 
-.add-advertisement__input__price {
+.add-advertisement__input__price,
+.add-advertisement__input__imageUrl {
   width: 100%;
   padding: 5px;
   margin-top: 10px;
@@ -143,6 +148,7 @@ height: 30px;
 .advertisement__name {
   font-size: 20px;
   font-weight: 700;
+  margin-top: 10px;
 }
 
 .advertisement__description {
@@ -170,24 +176,34 @@ height: 30px;
 
 .advertisement-view {
   position: relative;
-  width: 460px; 
-  height: 200px;
+  width: 460px;
+  /* height: 200px; */
   background-color: white;
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .advertisement-view__close {
   position: absolute;
-  top: 0;
-  right: 5px;
+  top: 10px;
+  right: 10px;
   cursor: pointer;
 }
 
 .advertisement-view__content {
-  padding: 10px;
+  padding: 20px;
   font-size: 15px;
+}
+
+.advertisement-view .advertisement__img {
+  width: 300px;
+  height: 400px;
+  object-fit: cover;
 }
 
 .advertisement-view__created {
@@ -199,13 +215,14 @@ height: 30px;
   width: 100%;
   display: flex;
   gap: 10px;
-  justify-content: end;
+  justify-content: center;
   align-items: center;
+  margin-top: 10px;
 }
 
 .edit-advertisement {
   position: relative;
-  width: 460px;  
+  width: 460px;
   background-color: white;
   padding: 30px 10px 10px;
   border-radius: 5px;
@@ -239,16 +256,24 @@ height: 30px;
   outline: none;
 }
 
+.edit-advertisement__input__imageUrl {
+  width: 100%;
+  padding: 5px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  outline: none;
+}
+
 .order__content {
   width: 100%;
   background-color: white;
   border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);  
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
   margin-top: 5px;
   padding: 20px;
 }
 
-.order__button { 
+.order__button {
   height: 30px;
   background-color: rgb(5, 5, 216);
   border-radius: 3px;
@@ -256,8 +281,44 @@ height: 30px;
   padding: 7px;
   border: none;
   cursor: pointer;
-  color: white; 
+  color: white;
   margin-top: 10px;
+}
+
+.advertisement__search {
+  width: 100%;
+  padding: 5px;
+  outline: none;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
+  margin-top: 10px;
+}
+
+.advertisements__count__title,
+.advertisements__count {
+  display: inline-block;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+}
+
+.order__status__title,
+.order__status__content,
+.order__sum__title,
+.order__sum__content {
+  display: block;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 5px rgba(0, 0, 0, 0.24);
+  cursor: pointer;
+  width: 200px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
 }
 
 .hidden {

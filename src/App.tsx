@@ -295,7 +295,12 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/orders" element={<LayoutOrder orders={orders} />} />
+        <Route
+          path="/orders"
+          element={
+            <LayoutOrder orders={orders} onClick={onReadAdvertisementHandler} />
+          }
+        />
         <Route
           path="/new"
           element={
